@@ -89,7 +89,3 @@ jobs:
         with:
           name: openwrt-firmware
           path: /lede/bin/targets
-
-        with:
-          name: openwrt-firmware
-          path: /lede/bin/targets
