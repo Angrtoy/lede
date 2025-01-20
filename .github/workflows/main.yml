@@ -20,7 +20,11 @@ jobs:
       # 安装依赖
       - name: Install dependencies
         run: |
+          # 更换为阿里云镜像源
+          sudo sed -i 's|http://archive.ubuntu.com|http://mirrors.aliyun.com|g' /etc/apt/sources.list
           sudo apt-get update
+          
+          # 安装所需依赖
           sudo apt-get install -y \
             build-essential \
             git \
@@ -44,11 +48,11 @@ jobs:
             g++ \
             libboost-all-dev \
             gcc \
-            python3-scons \
+            python3-venv \
             texinfo \
             liblzma-dev \
             make \
-            gcc-aarch64-linux-gnu
+            scons
 
       # 设置目标配置
       - name: Set up LEDE configuration for RK3568
@@ -61,14 +65,18 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-          # 配置目标平台为 RK3568
-          make defconfig
+          # 配置目标平台和架构
+          make menuconfig
+          # 在 menuconfig 中手动选择目标平台为 Rockchip，并配置为 RK3568
+
+          # 或者，使用默认配置文件进行构建
+          # make defconfig
 
       # 开始构建
       - name: Build LEDE firmware
         run: |
           cd /lede
-          make -j$(nproc) # 使用所有 CPU 核心进行构建
+          make -j$(nproc) # 这里可以设置构建时使用的 CPU 核心数
 
       # 上传构建结果
       - name: Upload build artifacts
