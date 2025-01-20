@@ -63,7 +63,7 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-          # 使用 RK3568 的默认配置文件（避免使用 menuconfig）
+          # 使用 RK3568 的默认配置文件，避免使用 menuconfig
           make rockchip_rk3568_defconfig  # 这是针对 RK3568 设备的默认配置文件
 
       # 开始构建 LEDE 固件
