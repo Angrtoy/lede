@@ -51,3 +51,16 @@ jobs:
             liblzma-dev \
             make \
             scons
+
+      # 克隆 LEDE 仓库并配置
+      - name: Clone and configure LEDE for RK3568
+        run: |
+          # 克隆 LEDE 仓库
+          git clone https://github.com/coolsnowwolf/lede.git /lede
+          cd /lede
+
+          # 更新 feeds
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+
+        
