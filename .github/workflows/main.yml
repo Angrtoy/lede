@@ -51,6 +51,7 @@ jobs:
       # 克隆 LEDE 仓库并配置
       - name: Clone and configure LEDE for RK3568
         run: |
+          # 克隆 LEDE 仓库到工作目录
           git clone https://github.com/coolsnowwolf/lede.git /home/runner/lede
           cd /home/runner/lede
 
@@ -58,11 +59,11 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-          # 使用 RK3568 的默认配置文件，避免使用 menuconfig
+          # 直接使用 RK3568 的默认配置文件
           make rockchip_rk3568_defconfig  # 这是针对 RK3568 设备的默认配置文件
 
-          # 直接使用 defconfig 配置，避免 menuconfig
-          touch .config  # 确保 `.config` 文件存在
+          # 确保 .config 文件存在并直接使用，避免触发 menuconfig
+          touch .config
 
       # 开始构建 LEDE 固件
       - name: Build LEDE firmware
